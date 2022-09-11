@@ -189,6 +189,9 @@ public class UserService implements IUserService  {
 			Optional<UserModel> isIdPresent = userRepository.findById(id);
 			if(isIdPresent.isPresent()) {
 				userRepository.delete(isIdPresent.get());
+				String body = "User deleted successfully with userId"+isUserPresent.get().getId();
+				String subject = "User deleted Successfull";
+				mailService.send(isUserPresent.get().getEmailId(), subject, body);
 				return new Response("Success", 200, isIdPresent.get());
 			} else {
 				throw new UserNotFoundException(400, "User not found");
