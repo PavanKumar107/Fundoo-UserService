@@ -50,8 +50,8 @@ public class UserController {
 	 */
 	@PutMapping("/updateuser/{id}")
 	public ResponseEntity<Response> updateUser(@RequestBody UserDto userDto,@PathVariable Long id,@RequestHeader String token) {
-		UserModel userModel = userService.addUser(userDto);
-		Response response = new Response("User inserted successfully", 200, userModel);
+		UserModel userModel = userService.updateUser(userDto,id,token);
+		Response response = new Response("User updated successfully", 200, userModel);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	

@@ -8,11 +8,8 @@ public class UserDto {
 	private String name;
 	private String emailId;
 	private String password;
-	private LocalDateTime createdAt;
-	private LocalDateTime updatedAt;
 	private boolean isActive;
 	private boolean isDeleted;
 	private String dob;
 	private String Phoneno;
-
 }

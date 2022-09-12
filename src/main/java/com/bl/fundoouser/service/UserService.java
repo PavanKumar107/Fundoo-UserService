@@ -1,5 +1,6 @@
 package com.bl.fundoouser.service;
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +36,7 @@ public class UserService implements IUserService  {
 	@Override
 	public UserModel addUser(UserDto userDto) {
 		UserModel model = new UserModel(userDto);
+		model.setCreatedAt(LocalDateTime.now());
 		userRepository.save(model);
 		String body = "User added successfully with userId"+model.getId();
 		String subject = "User added Successfull";
@@ -52,8 +54,8 @@ public class UserService implements IUserService  {
 			if(isUserPresent.isPresent()) {
 				isUserPresent.get().setName(userDto.getName());
 				isUserPresent.get().setEmailId(userDto.getEmailId());
-				isUserPresent.get().setPassword(userDto.getPassword());
-				isUserPresent.get().setUpdatedAt(userDto.getUpdatedAt().now());
+				isUserPresent.get().setPassword(passwordEncoder.encode(userDto.getPassword()));
+				isUserPresent.get().setUpdatedAt(LocalDateTime.now());
 				isUserPresent.get().setDob(userDto.getDob());
 				isUserPresent.get().setPhoneno(userDto.getPhoneno());
 				userRepository.save(isUserPresent.get());
@@ -199,4 +201,5 @@ public class UserService implements IUserService  {
 		}
 		throw new UserNotFoundException(400, "Invalid token");
 	}
+
 }

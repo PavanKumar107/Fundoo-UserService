@@ -32,6 +32,7 @@ public interface IUserService {
 	Response restoreUser(Long id, String token);
 
 	Response permanentDelete(Long id, String token);
+
 	
 ////	UserModel setprofilepic( File profilefile,Long id,String token);
 //	Response uploadProfilePic(MultipartFile multipartFile, String token);

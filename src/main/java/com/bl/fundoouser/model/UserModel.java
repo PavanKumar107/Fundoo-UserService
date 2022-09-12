@@ -6,6 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import com.bl.fundoouser.DTO.UserDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,14 +30,12 @@ public class UserModel {
 	private boolean isDeleted;
 	private String dob;
 	private String Phoneno;
-	private String profilePic;
+//	private MultipartFile profilePic;
 	
 	public UserModel(UserDto userDto) {
 		this.name = userDto.getName();
 		this.emailId = userDto.getEmailId();
 		this.password = userDto.getPassword();
-		this.createdAt = userDto.getCreatedAt();
-		this.updatedAt = userDto.getUpdatedAt();
 		this.isActive = userDto.isActive();
 		this.isDeleted = userDto.isDeleted();
 		this.dob = userDto.getDob();
