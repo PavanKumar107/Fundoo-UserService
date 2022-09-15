@@ -30,6 +30,7 @@ import com.bl.fundoouser.util.Response;
  * @version: 4.15.1.RELEASE
  * @author: Pavan Kumar G V  
  */
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -123,6 +124,15 @@ public class UserController {
 		return userService.validateUser(token);
 	}
 	
+	/**
+	 * Purpose:Validate user
+	 * @Param: token
+	 */
+	@GetMapping("/validateemail/{emailId}")
+	public Boolean validateEmail(@PathVariable String emailId) {
+		return userService.validateEmail(emailId);
+	}
+
 	/**
 	 * Purpose:To delete the user
 	 * @Param: token and id

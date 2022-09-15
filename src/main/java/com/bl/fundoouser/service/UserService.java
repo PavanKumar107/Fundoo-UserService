@@ -147,7 +147,7 @@ public class UserService implements IUserService  {
 		throw new UserNotFoundException(400,"Token not find");
 	}
 
-	//Purpose:Service for reset password
+	//Purpose:Service for validate user
 	@Override
 	public Boolean validateUser(String token) {
 		Long decode = tokenUtil.decodeToken(token);
@@ -155,6 +155,17 @@ public class UserService implements IUserService  {
 		if (isTokenPresent.isPresent())
 			return true;
 		throw new UserNotFoundException(400, "Token not found");
+	}
+
+	//Purpose:Service for valid email
+	@Override
+	public Boolean validateEmail(String emailId) {
+		Optional<UserModel> isEmailPresent = userRepository.findByEmailId(emailId);
+		if (isEmailPresent.isPresent()) {
+			return true;
+		}else {
+			return false;	
+		}
 	}
 
 	//Purpose:Service for deleting user
@@ -226,5 +237,4 @@ public class UserService implements IUserService  {
 		}
 		throw new UserNotFoundException(400, "User not found");
 	}
-
 }

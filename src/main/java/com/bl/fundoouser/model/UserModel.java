@@ -42,7 +42,7 @@ public class UserModel {
 	private String Phoneno;
 	@Column(length = 1000)
 	private String profilePic;
-	
+
 	public UserModel(UserDto userDto) {
 		this.name = userDto.getName();
 		this.emailId = userDto.getEmailId();

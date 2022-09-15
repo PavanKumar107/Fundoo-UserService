@@ -10,7 +10,6 @@ import com.bl.fundoouser.DTO.UserDto;
 import com.bl.fundoouser.model.UserModel;
 import com.bl.fundoouser.util.Response;
 
-
 /**
  *  
  * Purpose:User Service Interface
@@ -46,9 +45,5 @@ public interface IUserService {
 
 	Response addProfilePic(Long id, MultipartFile profilePic) throws IOException;
 
-	
-////	UserModel setprofilepic( File profilefile,Long id,String token);
-//	Response uploadProfilePic(MultipartFile multipartFile, String token);
-
-	
+	Boolean validateEmail(String token);
 }
