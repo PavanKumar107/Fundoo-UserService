@@ -2,6 +2,13 @@ package com.bl.fundoouser.util;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+/**
+ *  
+ * Purpose:Response to the user
+ * @author: Pavan Kumar G V 
+ * @version: 4.15.1.RELEASE
+ * 
+ **/ 
 @Data
 @AllArgsConstructor
 public class Response {

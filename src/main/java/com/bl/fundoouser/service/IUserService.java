@@ -1,5 +1,6 @@
 package com.bl.fundoouser.service;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,16 @@ import com.bl.fundoouser.DTO.UserDto;
 import com.bl.fundoouser.model.UserModel;
 import com.bl.fundoouser.util.Response;
 
+
+/**
+ *  
+ * Purpose:User Service Interface
+ * @author: Pavan Kumar G V 
+ * @version: 4.15.1.RELEASE
+ * 
+ **/
+
+//all the method for the service are registered here
 public interface IUserService {
 
 	UserModel addUser(UserDto userDto);
@@ -32,6 +43,8 @@ public interface IUserService {
 	Response restoreUser(Long id, String token);
 
 	Response permanentDelete(Long id, String token);
+
+	Response addProfilePic(Long id, MultipartFile profilePic) throws IOException;
 
 	
 ////	UserModel setprofilepic( File profilefile,Long id,String token);

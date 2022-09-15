@@ -10,6 +10,13 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import org.springframework.stereotype.Component;
 
+/**
+ *  
+ * Purpose:Mail service created for the sending mail to the user
+ * @author: Pavan Kumar G V 
+ * @version: 4.15.1.RELEASE
+ * 
+ **/ 
 @Component
 public class MailService {
 	public static void send(String toEmail, String subject, String body){

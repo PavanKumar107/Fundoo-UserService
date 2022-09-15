@@ -9,6 +9,13 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import com.auth0.jwt.interfaces.Verification;
 
+/**
+ *  
+ * Purpose:Create token and Decode it
+ * @author: Pavan Kumar G V 
+ * @version: 4.15.1.RELEASE
+ * 
+ **/ 
 @Component
 public class TokenUtil {
 	public  final String TOKEN_SECRET = "LoginToken";

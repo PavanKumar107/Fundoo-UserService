@@ -1,6 +1,8 @@
 package com.bl.fundoouser.model;
 import java.io.File;
 import java.time.LocalDateTime;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +15,14 @@ import com.bl.fundoouser.DTO.UserDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ *  
+ * Purpose:Model for the User data Registration
+ * 
+ * @author: Pavan Kumar G V 
+ * @version: 4.15.1.RELEASE
+ * 
+ **/ 
 @Entity
 @Table(name = "userdetails")
 @Data
@@ -30,7 +40,8 @@ public class UserModel {
 	private boolean isDeleted;
 	private String dob;
 	private String Phoneno;
-//	private MultipartFile profilePic;
+	@Column(length = 1000)
+	private String profilePic;
 	
 	public UserModel(UserDto userDto) {
 		this.name = userDto.getName();

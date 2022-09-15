@@ -1,6 +1,10 @@
 package com.bl.fundoouser.controller;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +42,7 @@ public class UserController {
 	 * @Param: userDto
 	 */
 	@PostMapping("/adduser")
-	public ResponseEntity<Response> addUser(@RequestBody UserDto userDto) {
+	public ResponseEntity<Response> addUser(@Valid@RequestBody UserDto userDto) {
 		UserModel userModel = userService.addUser(userDto);
 		Response response = new Response("User inserted successfully", 200, userModel);
 		return new ResponseEntity<>(response, HttpStatus.OK);	
@@ -49,7 +53,7 @@ public class UserController {
 	 * @Param: userDto,id,token
 	 */
 	@PutMapping("/updateuser/{id}")
-	public ResponseEntity<Response> updateUser(@RequestBody UserDto userDto,@PathVariable Long id,@RequestHeader String token) {
+	public ResponseEntity<Response> updateUser(@Valid@RequestBody UserDto userDto,@PathVariable Long id,@RequestHeader String token) {
 		UserModel userModel = userService.updateUser(userDto,id,token);
 		Response response = new Response("User updated successfully", 200, userModel);
 		return new ResponseEntity<>(response, HttpStatus.OK);
@@ -119,12 +123,6 @@ public class UserController {
 		return userService.validateUser(token);
 	}
 	
-//	@PostMapping("/profilepic")
-//	public ResponseEntity<Response> uploadProfilePicture(@RequestPart("multipartFile") MultipartFile multipartFile, @RequestHeader String token){
-//		Response response = userService.uploadProfilePic(multipartFile, token);
-//		return new ResponseEntity<>(response, HttpStatus.OK);
-//	}
-	
 	/**
 	 * Purpose:To delete the user
 	 * @Param: token and id
@@ -155,6 +153,17 @@ public class UserController {
 	public ResponseEntity<Response> permanentDelete(@PathVariable Long id,@RequestHeader String token) {
 		Response userModel = userService.permanentDelete(id,token);
 		Response response = new Response("User deleted permanently ", 200, userModel);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	
+	/**
+	 * Purpose:To add profile pic
+	 * @Param: id and profilepic
+	 */
+	@PostMapping("/addprofilepic/{id}")
+	public ResponseEntity<Response> addProfilePic(@PathVariable Long id,@RequestParam MultipartFile profilePic) throws IOException {
+		Response userModel = userService.addProfilePic(id,profilePic);
+		Response response = new Response("Profile pic uploaded sucessfully ", 200, userModel);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 }

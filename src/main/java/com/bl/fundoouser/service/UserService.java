@@ -1,10 +1,8 @@
 package com.bl.fundoouser.service;
-import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,6 +14,15 @@ import com.bl.fundoouser.model.UserModel;
 import com.bl.fundoouser.repository.UserRepository;
 import com.bl.fundoouser.util.Response;
 import com.bl.fundoouser.util.TokenUtil;
+
+
+/**
+ *  
+ * Purpose:Service implementation of the User
+ * @author: Pavan Kumar G V 
+ * @version: 4.15.1.RELEASE
+ * 
+ */
 
 @Service
 public class UserService implements IUserService  {
@@ -32,7 +39,7 @@ public class UserService implements IUserService  {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
-	//Ability to add user to the database
+	//Purpose:To add user to the database
 	@Override
 	public UserModel addUser(UserDto userDto) {
 		UserModel model = new UserModel(userDto);
@@ -44,7 +51,7 @@ public class UserService implements IUserService  {
 		return model;
 	}
 
-	//Ability to update user details by id and token
+	//Purpose:To update user details
 	@Override
 	public UserModel updateUser(UserDto userDto, Long id,String token) {
 		Long decode = tokenUtil.decodeToken(token);
@@ -69,7 +76,7 @@ public class UserService implements IUserService  {
 		throw new UserNotFoundException(400,"Token not find");
 	}
 
-	//Ability to fetch all the user details by token
+	//Purpose:To fetch all the user details
 	@Override
 	public List<UserModel> getAllUsers(String token) {
 		Long decode = tokenUtil.decodeToken(token);
@@ -85,7 +92,7 @@ public class UserService implements IUserService  {
 		throw new UserNotFoundException(400,"Token not find");
 	}
 
-	//Ability to fetch user details by id
+	//Purpose:Ability to fetch user details 
 	@Override
 	public Optional<UserModel> getUserById(Long id,String token) {
 		Long decode = tokenUtil.decodeToken(token);
@@ -96,6 +103,7 @@ public class UserService implements IUserService  {
 		throw new UserNotFoundException(400,"Token not find");
 	}
 
+	//Purpose:Login service
 	@Override
 	public Response login(String emailId, String password) {
 		Optional<UserModel> isEmailPresent = userRepository.findByEmailId(emailId);
@@ -109,6 +117,7 @@ public class UserService implements IUserService  {
 		throw new UserNotFoundException(400,"invalid emailid");
 	}
 
+	//Purpose:Service for reset password
 	@Override
 	public Response resetPassword(String emailId) {
 		Optional<UserModel> isMailPresent = userRepository.findByEmailId(emailId);
@@ -122,6 +131,7 @@ public class UserService implements IUserService  {
 		throw new UserNotFoundException(400, "EmailNOtFound");
 	}
 
+	//Purpose:Service for changing password
 	@Override
 	public UserModel changePassword(String token, String password) {
 		Long decode = tokenUtil.decodeToken(token);
@@ -137,6 +147,7 @@ public class UserService implements IUserService  {
 		throw new UserNotFoundException(400,"Token not find");
 	}
 
+	//Purpose:Service for reset password
 	@Override
 	public Boolean validateUser(String token) {
 		Long decode = tokenUtil.decodeToken(token);
@@ -146,7 +157,7 @@ public class UserService implements IUserService  {
 		throw new UserNotFoundException(400, "Token not found");
 	}
 
-	//Ability to delete the user by id
+	//Purpose:Service for deleting user
 	@Override
 	public Response deleteUser(Long id,String token) {
 		Long decode = tokenUtil.decodeToken(token);
@@ -165,6 +176,7 @@ public class UserService implements IUserService  {
 		throw new UserNotFoundException(400, "Token not found");	
 	}
 
+	//Purpose:Service to restore users
 	@Override
 	public Response restoreUser(Long id,String token) {
 		Long decode = tokenUtil.decodeToken(token);
@@ -183,6 +195,7 @@ public class UserService implements IUserService  {
 		throw new UserNotFoundException(400, "Token not found");	
 	}
 
+	//Purpose:Service to delete user permanently
 	@Override
 	public Response permanentDelete(Long id, String token) {
 		Long userId = tokenUtil.decodeToken(token);
@@ -200,6 +213,18 @@ public class UserService implements IUserService  {
 			}		
 		}
 		throw new UserNotFoundException(400, "Invalid token");
+	}
+
+	//Purpose:Service to set profile pic
+	@Override
+	public Response addProfilePic(Long id,MultipartFile profilePic) throws IOException {
+		Optional<UserModel> isIdPresent = userRepository.findById(id);
+		if(isIdPresent.isPresent()) {
+			isIdPresent.get().setProfilePic(String.valueOf(profilePic.getBytes()));
+			userRepository.save(isIdPresent.get());
+			return new Response("Success", 200, isIdPresent.get());
+		}
+		throw new UserNotFoundException(400, "User not found");
 	}
 
 }

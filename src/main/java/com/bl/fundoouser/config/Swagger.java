@@ -29,21 +29,21 @@ import springfox.documentation.spring.web.plugins.WebFluxRequestHandlerProvider;
 import springfox.documentation.spring.web.plugins.WebMvcRequestHandlerProvider;
 import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
+/**
+ *  
+ * Purpose:Swagger configuration
+ * 
+ * @author: Pavan Kumar G V 
+ * @version: 4.15.1.RELEASE
+ * 
+ **/ 
+
 @SuppressWarnings({ "ALL", "deprecation" })
 @Configuration
 @EnableSwagger2WebMvc
 @Import(SpringDataRestConfiguration.class)
 public class Swagger implements WebMvcConfigurer {
     public static final String AUTHORIZATION_HEADER = "Authorization";
-	/*@Bean
-	   public Docket api() {
-	       return new Docket(DocumentationType.SWAGGER_2)
-	               .select()
-	               .apis(RequestHandlerSelectors.any())
-	               .paths(PathSelectors.any())
-	               .build()
-	               .apiInfo(getApiInfo());
-	   }*/
 
     @Bean
     public Docket api() {
