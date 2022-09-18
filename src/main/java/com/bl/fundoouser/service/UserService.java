@@ -45,7 +45,7 @@ public class UserService implements IUserService  {
 		UserModel model = new UserModel(userDto);
 		model.setCreatedAt(LocalDateTime.now());
 		userRepository.save(model);
-		String body = "User added successfully with userId"+model.getId();
+		String body = "User added successfully with userId"+model.getUserId();
 		String subject = "User added Successfull";
 		mailService.send(model.getEmailId(), subject, body);
 		return model;
@@ -53,11 +53,11 @@ public class UserService implements IUserService  {
 
 	//Purpose:To update user details
 	@Override
-	public UserModel updateUser(UserDto userDto, Long id,String token) {
+	public UserModel updateUser(UserDto userDto, Long userId,String token) {
 		Long decode = tokenUtil.decodeToken(token);
 		Optional<UserModel> isTokenPresent = userRepository.findById(decode);
 		if (isTokenPresent.isPresent()) {
-			Optional<UserModel>isUserPresent = userRepository.findById(id);
+			Optional<UserModel>isUserPresent = userRepository.findById(userId);
 			if(isUserPresent.isPresent()) {
 				isUserPresent.get().setName(userDto.getName());
 				isUserPresent.get().setEmailId(userDto.getEmailId());
@@ -66,7 +66,7 @@ public class UserService implements IUserService  {
 				isUserPresent.get().setDob(userDto.getDob());
 				isUserPresent.get().setPhoneno(userDto.getPhoneno());
 				userRepository.save(isUserPresent.get());
-				String body = "User updated successfully with userId"+isUserPresent.get().getId();
+				String body = "User updated successfully with userId"+isUserPresent.get().getUserId();
 				String subject = "User updated Successfull";
 				mailService.send(isUserPresent.get().getEmailId(), subject, body);
 				return isUserPresent.get();
@@ -94,11 +94,11 @@ public class UserService implements IUserService  {
 
 	//Purpose:Ability to fetch user details 
 	@Override
-	public Optional<UserModel> getUserById(Long id,String token) {
+	public Optional<UserModel> getUserById(Long userId,String token) {
 		Long decode = tokenUtil.decodeToken(token);
 		Optional<UserModel> isTokenPresent = userRepository.findById(decode);
 		if (isTokenPresent.isPresent()) {
-			return userRepository.findById(id);
+			return userRepository.findById(userId);
 		}
 		throw new UserNotFoundException(400,"Token not find");
 	}
@@ -109,7 +109,7 @@ public class UserService implements IUserService  {
 		Optional<UserModel> isEmailPresent = userRepository.findByEmailId(emailId);
 		if(isEmailPresent.isPresent()){
 			if(isEmailPresent.get().getPassword().equals(password)){
-				String token = tokenUtil.createToken(isEmailPresent.get().getId());
+				String token = tokenUtil.createToken(isEmailPresent.get().getUserId());
 				return new Response("User login succesfull",200,token);
 			}
 			throw new UserNotFoundException(400,"Invald credentials");
@@ -122,7 +122,7 @@ public class UserService implements IUserService  {
 	public Response resetPassword(String emailId) {
 		Optional<UserModel> isMailPresent = userRepository.findByEmailId(emailId);
 		if (isMailPresent.isPresent()){
-			String token = tokenUtil.createToken(isMailPresent.get().getId());
+			String token = tokenUtil.createToken(isMailPresent.get().getUserId());
 			String url = "http://localhost:8089/admin/resetpassword "+token;
 			String subject = "reset password Successfully";
 			mailService.send(isMailPresent.get().getEmailId(), subject, url);
@@ -139,7 +139,7 @@ public class UserService implements IUserService  {
 		if (isTokenPresent.isPresent()) {
 			isTokenPresent.get().setPassword(passwordEncoder.encode(password));
 			userRepository.save(isTokenPresent.get());
-			String body = "Password changed successfully with userId"+isTokenPresent.get().getId();
+			String body = "Password changed successfully with userId"+isTokenPresent.get().getUserId();
 			String subject = "Password changed Successfully";
 			mailService.send(isTokenPresent.get().getEmailId(), subject, body);
 			return isTokenPresent.get();
@@ -170,11 +170,11 @@ public class UserService implements IUserService  {
 
 	//Purpose:Service for deleting user
 	@Override
-	public Response deleteUser(Long id,String token) {
+	public Response deleteUser(Long userId,String token) {
 		Long decode = tokenUtil.decodeToken(token);
 		Optional<UserModel> isTokenPresent = userRepository.findById(decode);
 		if (isTokenPresent.isPresent()) {
-			Optional<UserModel> isIdPresent = userRepository.findById(id);
+			Optional<UserModel> isIdPresent = userRepository.findById(userId);
 			if(isIdPresent.isPresent()) {
 				isIdPresent.get().setActive(false);
 				isIdPresent.get().setDeleted(true);
@@ -189,11 +189,11 @@ public class UserService implements IUserService  {
 
 	//Purpose:Service to restore users
 	@Override
-	public Response restoreUser(Long id,String token) {
+	public Response restoreUser(Long userId,String token) {
 		Long decode = tokenUtil.decodeToken(token);
 		Optional<UserModel> isTokenPresent = userRepository.findById(decode);
 		if (isTokenPresent.isPresent()) {
-			Optional<UserModel> isIdPresent = userRepository.findById(id);
+			Optional<UserModel> isIdPresent = userRepository.findById(userId);
 			if(isIdPresent.isPresent()) {
 				isIdPresent.get().setActive(true);
 				isIdPresent.get().setDeleted(false);
@@ -208,14 +208,14 @@ public class UserService implements IUserService  {
 
 	//Purpose:Service to delete user permanently
 	@Override
-	public Response permanentDelete(Long id, String token) {
-		Long userId = tokenUtil.decodeToken(token);
-		Optional<UserModel> isUserPresent = userRepository.findById(userId);
+	public Response permanentDelete(Long userId, String token) {
+		Long userId1 = tokenUtil.decodeToken(token);
+		Optional<UserModel> isUserPresent = userRepository.findById(userId1);
 		if(isUserPresent.isPresent()) {
-			Optional<UserModel> isIdPresent = userRepository.findById(id);
+			Optional<UserModel> isIdPresent = userRepository.findById(userId);
 			if(isIdPresent.isPresent()) {
 				userRepository.delete(isIdPresent.get());
-				String body = "User deleted successfully with userId"+isUserPresent.get().getId();
+				String body = "User deleted successfully with userId"+isUserPresent.get().getUserId();
 				String subject = "User deleted Successfull";
 				mailService.send(isUserPresent.get().getEmailId(), subject, body);
 				return new Response("Success", 200, isIdPresent.get());

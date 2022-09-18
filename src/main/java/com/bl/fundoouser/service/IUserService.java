@@ -23,11 +23,11 @@ public interface IUserService {
 
 	UserModel addUser(UserDto userDto);
 	
-	UserModel updateUser(UserDto userDto,Long id,String token);
+	UserModel updateUser(UserDto userDto,Long userId,String token);
 	
 	List<UserModel> getAllUsers(String token);
 	
-	Optional<UserModel> getUserById(Long id,String token);
+	Optional<UserModel> getUserById(Long userId,String token);
 	
 	Response login(String emailId, String password);
 	
@@ -35,15 +35,15 @@ public interface IUserService {
 	
 	UserModel changePassword(String token, String password);
 
-	Response deleteUser(Long id, String token);
+	Response deleteUser(Long userId, String token);
 
 	Boolean validateUser(String token);
 
-	Response restoreUser(Long id, String token);
+	Response restoreUser(Long userId, String token);
 
-	Response permanentDelete(Long id, String token);
+	Response permanentDelete(Long userId, String token);
 
-	Response addProfilePic(Long id, MultipartFile profilePic) throws IOException;
+	Response addProfilePic(Long userId, MultipartFile profilePic) throws IOException;
 
 	Boolean validateEmail(String token);
 }

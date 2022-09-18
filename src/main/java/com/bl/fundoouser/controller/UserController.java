@@ -53,9 +53,9 @@ public class UserController {
 	 * Purpose: update User
 	 * @Param: userDto,id,token
 	 */
-	@PutMapping("/updateuser/{id}")
-	public ResponseEntity<Response> updateUser(@Valid@RequestBody UserDto userDto,@PathVariable Long id,@RequestHeader String token) {
-		UserModel userModel = userService.updateUser(userDto,id,token);
+	@PutMapping("/updateuser/{userId}")
+	public ResponseEntity<Response> updateUser(@Valid@RequestBody UserDto userDto,@PathVariable Long userId,@RequestHeader String token) {
+		UserModel userModel = userService.updateUser(userDto,userId,token);
 		Response response = new Response("User updated successfully", 200, userModel);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
@@ -75,9 +75,9 @@ public class UserController {
 	 * Purpose: get User by id
 	 * @Param: id,token
 	 */
-	@GetMapping("/getuserbyid/{id}")
-	public ResponseEntity<Response> getUserById(@PathVariable Long id,@RequestHeader String token) {
-		Optional<UserModel> userModel = userService.getUserById(id,token);
+	@GetMapping("/getuserbyid/{userId}")
+	public ResponseEntity<Response> getUserById(@PathVariable Long userId,@RequestHeader String token) {
+		Optional<UserModel> userModel = userService.getUserById(userId,token);
 		Response response = new Response("Fectching user by id successfully", 200, userModel);
 		return new ResponseEntity<>(response, HttpStatus.OK);	
 	}
@@ -137,9 +137,9 @@ public class UserController {
 	 * Purpose:To delete the user
 	 * @Param: token and id
 	 */
-	@DeleteMapping("deleteuser/{id}")
-	public ResponseEntity<Response> deleteUser(@PathVariable Long id,@RequestHeader String token) {
-		Response userModel = userService.deleteUser(id,token);
+	@DeleteMapping("deleteuser/{userId}")
+	public ResponseEntity<Response> deleteUser(@PathVariable Long userId,@RequestHeader String token) {
+		Response userModel = userService.deleteUser(userId,token);
 		Response response = new Response("User deleted successfully", 200, userModel);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
@@ -148,9 +148,9 @@ public class UserController {
 	 * Purpose: To restore the user
 	 * @Param: token and id
 	 */
-	@GetMapping("restoreuser/{id}")
-	public ResponseEntity<Response> restoreUser(@PathVariable Long id,@RequestHeader String token) {
-		Response userModel = userService.restoreUser(id,token);
+	@GetMapping("restoreuser/{userId}")
+	public ResponseEntity<Response> restoreUser(@PathVariable Long userId,@RequestHeader String token) {
+		Response userModel = userService.restoreUser(userId,token);
 		Response response = new Response("User restored successfully", 200, userModel);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
@@ -159,9 +159,9 @@ public class UserController {
 	 * Purpose:To delete the user permanently
 	 * @Param: token and id
 	 */
-	@DeleteMapping("permanentlydeleteuser/{id}")
-	public ResponseEntity<Response> permanentDelete(@PathVariable Long id,@RequestHeader String token) {
-		Response userModel = userService.permanentDelete(id,token);
+	@DeleteMapping("permanentlydeleteuser/{userId}")
+	public ResponseEntity<Response> permanentDelete(@PathVariable Long userId,@RequestHeader String token) {
+		Response userModel = userService.permanentDelete(userId,token);
 		Response response = new Response("User deleted permanently ", 200, userModel);
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
